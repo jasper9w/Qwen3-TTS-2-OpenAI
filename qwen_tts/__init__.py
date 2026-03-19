@@ -18,6 +18,22 @@
 qwen_tts: Qwen-TTS package.
 """
 
+import os
+
+os.environ.setdefault("NUMBA_CACHE_DIR", "/tmp/numba_cache")
+
+try:
+    import transformers.utils.import_utils as _transformers_import_utils
+
+    # Qwen3-TTS does not use MLX in this repo, but a globally installed `mlx`
+    # package can be auto-detected by Transformers and later imported on macOS.
+    # On machines without a usable Metal device this can crash the process during
+    # model loading, so we disable that optional backend by default.
+    if os.environ.get("QWEN_TTS_DISABLE_MLX", "1") == "1":
+        _transformers_import_utils._mlx_available = False
+except Exception:
+    pass
+
 from .inference.qwen3_tts_model import Qwen3TTSModel, VoiceClonePromptItem
 from .inference.qwen3_tts_tokenizer import Qwen3TTSTokenizer
 

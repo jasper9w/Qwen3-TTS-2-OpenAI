@@ -23,10 +23,12 @@ dependencies = [
   "transformers==4.57.3",
   "accelerate==1.12.0",
   "gradio",
+  "fastapi",
   "librosa",
   "torchaudio",
   "soundfile",
   "sox",
+  "uvicorn",
   "onnxruntime",
   "einops",
 ]
@@ -37,6 +39,7 @@ Repository = "https://github.com/Qwen/Qwen3-TTS"
 
 [project.scripts]
 qwen-tts-demo = "qwen_tts.cli.demo:main"
+qwen-tts-openai-api = "qwen_tts.openai_api:main"
 
 [tool.setuptools]
 packages = { find = { where = ["."] , include = ["qwen_tts*"] } }
